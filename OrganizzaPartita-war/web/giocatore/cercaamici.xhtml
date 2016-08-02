@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"  
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:pp="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        
+    </h:head>
+    <h:body>
+        <ui:composition template="/template_giocatore.xhtml">   
+        <ui:define name="content">
+        <f:view>
+        <!-- form ricerca persone -->
+        <h:form class="customform"> 
+            <h:outputLabel for="cerca_persone"><h3>Cerca persona</h3></h:outputLabel>
+              <h:inputText id="cerca_persone" value="#{cercaAmici.search}" pp:placeholder="Cerca Persone...">
+                   <f:ajax  event="change"
+                            listener="#{cercaAmici.cercaUtente(e)}"
+                            render="persona_list"/>
+              </h:inputText>
+            <div class="aside-nav">
+            <ul jsf:id="persona_list" >
+            
+            <ui:repeat value="#{cercaAmici.matched_persone}" var="persona">
+                <li>
+                    <a><div class="img-wrapper">
+                        <h:graphicImage styleClass="thumbnail" value="/images/#{persona.username}/#{persona.username}"/>
+                        </div>
+                        <h3>
+                            <h:outputText value="#{persona.utente.nome} #{persona.utente.cognome}"/>
+                        </h3>
+                        <h:commandButton value="Aggiungi agli amici" rendered="#{!utenteSession.amici.contains(persona)}">
+                                       <f:ajax event="click" 
+                                               listener="#{utenteSession.inviaRichiestaAmicizia(e, persona)}" 
+                                               resetValues="true"/>
+                        </h:commandButton>
+                    </a>
+                </li>
+                
+            </ui:repeat>
+            </ul>
+            </div>
+            </h:form>
+            <!-- /form cerca persone -->
+            
+            <!-- sezione suggerimenti -->
+            <div jsf:rendered="#{cercaAmici.potresti_conoscere.size() ne 0}" style="margin-top: 2em">
+            <h3 style="margin-bottom: 1em;">Suggerimenti</h3>
+            <h:form styleClass="customform">
+               <div class="aside-nav">
+                <ul jsf:id="persona_list" >
+                    <ui:repeat value="#{cercaAmici.potresti_conoscere}" var="persona">
+                <li>
+                    <a><div class="img-wrapper">
+                        <h:graphicImage styleClass="thumbnail" value="/images/#{persona.username}/#{persona.username}"/>
+                        </div>
+                        <h3>
+                            <h:outputText value="#{persona.utente.nome} #{persona.utente.cognome}"/>
+                        </h3>
+                        <h:commandButton value="Aggiungi agli amici" rendered="#{!utenteSession.amici.contains(persona)}">
+                                       <f:ajax event="click" 
+                                               listener="#{utenteSession.inviaRichiestaAmicizia(e, persona)}" 
+                                               resetValues="true"/>
+                        </h:commandButton>
+                    </a>
+                </li>
+
+                </ui:repeat>
+                </ul>
+               </div>
+                
+           </h:form>
+           </div>    
+           <!--/ sugerrimenti -->
+            
+           <!-- amici utente -->
+           <h:form class="customform" style="margin-top: 2em">
+               <h3 style="margin-bottom: 1em;">I tuoi amici</h3>
+               <div class="aside-nav">
+                <ul jsf:id="persona_list" >
+                    <ui:repeat value="#{utenteSession.amici}" var="amico">
+                <li>
+                    <a><div class="img-wrapper">
+                        <h:graphicImage styleClass="thumbnail" value="/images/#{amico.username}/#{amico.username}"/>
+                        </div>
+                        <h3>
+                        <h:outputText value="#{amico.utente.nome} #{amico.utente.cognome}"/>
+                        </h3>
+                        <h:commandButton value="Elimina" >
+                           <f:ajax listener="#{utenteSession.eliminaAmico(e, amico)}"
+                                   />
+                        </h:commandButton>
+                    </a>
+                </li>
+                </ui:repeat>
+                </ul>
+               </div>
+           </h:form>
+           <!--/ amici utente -->
+           <p:dialog id="esito_richiesta_panel" widgetVar="esito_richiesta" >
+               <h:outputText id="output_message"/>
+        </p:dialog>
+       </f:view>
+     </ui:define>            
+    </ui:composition>
+    </h:body>
+</html>
+

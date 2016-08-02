@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <aside class="s-12 l-3">
+           <!--<div id="thumb_foto" class="thumbnail">-->
+                    <h:graphicImage value="/images/rovesciata.jpg" rendered="#{!utenteSession.possiedeFoto()}"/>
+                    <h:graphicImage styleClass="thumbnail" value="/images/#{utenteSession.current_username}/#{utenteSession.current_username}"
+                                    rendered="#{utenteSession.possiedeFoto()}"/>
+            <!--</div>-->
+            
+            <div class="upload">
+                        <h:form enctype="multipart/form-data" rendered="#{!utenteSession.possiedeFoto()}">
+                            <h:inputFile value="#{uploadFIle.file}" />
+                            <h:commandButton value="Invia" action="#{uploadFIle.uploadSingleFile(utenteSession.current_username)}">
+                            </h:commandButton>
+                        </h:form>
+            </div>
+            
+            
+            <h3 style="margin-top: 2em">Ciao #{utenteSession.current_username}</h3>
+            
+		  <div class="aside-nav">
+			<ul>
+                            <li><a>#{utenteSession.current_utente.nome} #{utenteSession.current_utente.cognome}</a></li>
+                            <li><a>#{utenteSession.current_utente.viveACitta}</a></li>
+                            <li><a>#{utenteSession.current_utente.viveAProvincia}</a></li>
+                        </ul>
+		  </div>
+		</aside>
+        <p:dialog widgetVar="upload foto">
+            dfs
+        </p:dialog>
+    </h:body>
+</html>
+

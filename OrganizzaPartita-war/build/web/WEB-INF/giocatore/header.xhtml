@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:pass="http://java.sun.com/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+        <header>  
+	<nav>
+	  <div class="line">
+		<div class="s-12 l-2">
+                    
+		</div>
+		<div class="top-nav s-12 l-10 right">
+		  <p class="nav-text">Menu</p> 
+		  <ul class="right">
+                     
+                       
+			<!-- Notifiche -->
+                        <li class="submenu">
+			<h:form id="notifiche">
+                        <div jsf:id="counter">
+                        <h:commandLink id="notifiche_button" value="Notifiche">
+                            <f:ajax listener="#{utenteSession.cambiaStatoAggiornamenti(e)}" 
+                                    event="click"
+                                    render=":notifiche:aggiornamenti counter"/>
+                            <span class="count-number">#{utenteSession.aggiornamenti_non_letti}</span>
+                        </h:commandLink>
+                        </div>
+                        <p:overlayPanel id="notifiche_panel" for="notifiche_button" dynamic="false">
+
+                        <!--Tabella aggiornamenti -->
+                        <h:dataTable id="aggiornamenti" value="#{utenteSession.aggiornamenti}" var="aggiornamento">
+                        <h:column>
+                        <h:outputText value=" #{aggiornamento.messaggio}  #{aggiornamento.mittente.utente.nome} #{aggiornamento.mittente.utente.cognome}"/>
+                        </h:column>
+                        <h:column>
+                            <h:panelGroup rendered="#{aggiornamento.richiesta_partita ne null}">
+                            <h:commandButton id="dettagli_prenotazione" value="Dettagli" type="button" />
+                            <p:overlayPanel id="dettagli" for="dettagli_prenotazione" hideEffect="fade">
+                            <table>
+                                   <tr>
+                                       <td><h:outputText value="Data: "/></td>
+                                       <td>
+                                           <h:outputText value="#{aggiornamento.richiesta_partita.prenotazione.data_prenotazione.date}-"/>
+                                           <h:outputText value="#{aggiornamento.richiesta_partita.prenotazione.data_prenotazione.month+1}"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td><h:outputText value="Ora: "/></td>
+                                       <td>
+                                           <h:outputText value="#{aggiornamento.richiesta_partita.prenotazione.orario_inizio.hours}:00:00"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td><h:outputText value="Indirizzo: "/></td>
+                                       <td><h:outputText value="#{aggiornamento.richiesta_partita.prenotazione.campo.indirizzo} "/></td>
+                                   </tr>
+                            </table>
+                            </p:overlayPanel>
+                                <h:commandButton value="Accetta">
+                                               <f:ajax listener="#{utenteSession.rispondiInvitoPartita(e, aggiornamento.richiesta_partita, aggiornamento, true)}"
+                                                       event="click"
+                                                       render=":notifiche"/>
+                                </h:commandButton>
+                                <h:commandButton value="Rifiuta">
+                                               <f:ajax 
+                                                       listener="#{utenteSession.rispondiInvitoPartita(e, aggiornamento.richiesta_partita, aggiornamento, false)}"
+                                                       event="click"
+                                                       render=":notifiche"/>
+                                </h:commandButton>
+                            </h:panelGroup>
+                         </h:column>
+                        </h:dataTable>
+                        </p:overlayPanel>
+                        </h:form>
+                          
+			</li>
+			
+                        <!--Richieste amicizia-->
+                        <li>		
+                            <h:form id="richieste_amicizia" styleClass="customform">
+                            <div jsf:id="richieste_counter">
+                            <h:commandLink id="richieste_amicizia_link" value="Richieste Amicizia" onclick="return false;">
+                                <span class="count-number">#{utenteSession.richieste_amicizia.size()}</span>
+                            </h:commandLink>
+                            </div>    
+                            <p:overlayPanel for="richieste_amicizia_link">
+                                <h:dataTable id="richieste_table" value="#{utenteSession.richieste_amicizia}" var="richiesta">
+                                <h:column>
+                                    <div class="thumbnail-ricerca">
+                                    <h:graphicImage value="/images/#{richiesta.account1.username}/#{richiesta.account1.username}small.png"/>
+                                    </div>
+                                </h:column>
+                                <h:column>
+                                    <h:outputText value=" #{richiesta.account1.utente.nome} #{richiesta.account1.utente.cognome}"/>
+                                </h:column>
+                                <h:column>
+                                <h:commandButton value="Conferma" >
+                                <f:ajax listener="#{utenteSession.rispondiRichiesta(e,richiesta,true)}"
+                                        render=":richieste_amicizia" />
+                                </h:commandButton>
+                                <h:commandButton value="Rifiuta" >
+                                        <f:ajax listener="#{utenteSession.rispondiRichiesta(e,richiesta,false)}"
+                                                render=":richieste_amicizia"/>
+                                </h:commandButton>
+                                </h:column>
+                                </h:dataTable>
+                            </p:overlayPanel>
+                        </h:form>
+			</li>
+			
+                         <!--Elimina account -->
+                        <li>                           
+                             <h:form>
+                                 <h:commandLink value="Logout" action="#{utenteSession.logout()}"/>
+                             </h:form>
+                        </li>
+		  </ul>
+		</div>
+	  </div> 
+	</nav>
+  </header>      
+            
+            <h:form>
+            <p:poll interval="10"
+                    listener="#{utenteSession.refreshAggiornament(e)}"                     
+                    update=":notifiche"/>
+            </h:form>
+            
+            <h:form>
+            <p:poll interval="10"
+                    listener="#{utenteSession.refreshRichiesteAmicizia(e)}"                     
+                    update=":richieste_amicizia"/>
+            </h:form>
+            
+            <p:dialog id="message_dialog_frame" widgetVar="message_dialog">
+                   <h:outputText id="output_message_header"/>
+            </p:dialog>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

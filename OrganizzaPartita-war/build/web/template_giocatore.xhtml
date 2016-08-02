@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <h:outputStylesheet library="template" name="css/components.css"/>
+        <h:outputStylesheet library="template" name="css/responsee.css"/>
+        <h:outputStylesheet library="template" name="css/template-style.css"/>
+        
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.7.0/jquery-ui.min.js"></script>  
+        <h:outputScript library="template" name="js/modernizr.js"/>
+        <h:outputScript library="template" name="js/responsee.js"/> 
+    </h:head>
+    
+    <h:body  class="size-1140">
+        <div id="page">
+            
+            <div id="header">
+                <ui:include src="WEB-INF/giocatore/header.xhtml"/>
+            </div>
+            
+            <div class="line">
+            <div class="box  margin-bottom"> 
+            <div class="margin">
+                
+                <div id="left-sidebar">
+                    <ui:include src="WEB-INF/giocatore/left.xhtml"/>
+                </div>
+            
+                
+            
+                <div id="content">
+                    <section class="s-12 l-6" style="margin-bottom: 2em;">
+                        <ui:insert name="content"/>
+                    </section>
+              
+            
+                </div>
+                
+                <div id="right-sidebar">
+                    <ui:include src="WEB-INF/giocatore/right.xhtml"/>
+                </div>
+            </div>
+            </div>
+            </div>
+            <div id="footer">
+                 <footer class="box">
+                    <div class="line">
+                        <div class="s-12 l-6">
+                            <p>© 2014 Ammisci Design, All Rights Reserved</p>
+                        </div>
+                <div class="s-12 l-6">
+                    <p class="right">Design and coding by The Goat</p>
+                </div>
+	</div>
+  </footer>
+            </div>
+           
+            
+        </div>
+        
+    </h:body>
+</html>
+

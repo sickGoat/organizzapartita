@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="login-style.css"/>
+    </h:head>
+    <h:body>
+        <!--WRAPPER-->
+<div id="wrapper">
+
+	<!--SLIDE-IN ICONS-->
+    <div class="user-icon"></div>
+    <div class="pass-icon"></div>
+    <!--END SLIDE-IN ICONS-->
+
+<!--LOGIN FORM-->
+
+<h:form p:class="login-form" id="recupero_form">
+	<!--HEADER-->
+    <div class="header">
+    <!--TITLE--><h1>Log In</h1><!--END TITLE-->
+    <!--DESCRIPTION--><span>Inserisci Username o indirizzo E-mail ( l'ultimo che ricordi)</span><!--END DESCRIPTION-->
+    </div>
+    <!--END HEADER-->
+	
+	<!--CONTENT-->
+    <div class="content">
+      
+    
+        <h:inputText id="username" value="#{recuperaCredenziali.username}" p:placeholder="Username" styleClass="input"></h:inputText> 
+        <h:inputText value="#{recuperaCredenziali.email}" id="email" styleClass="input" p:placeholder="Email" ></h:inputText>        
+      </div>
+        
+    
+    <!--FOOTER-->
+    <div class="footer">
+        <!--LOGIN BUTTON--> 
+        <h:commandButton  styleClass="button" value="Send">
+            <f:ajax  event="click" render="message_output lista" execute="username email" listener="#{recuperaCredenziali.checkuser(e)}"/>
+        </h:commandButton> 
+        <!--END LOGIN BUTTON-->
+       
+        
+        <!-- OUTPUT MESSAGE -->
+        <div class="message">
+            <ul jsf:id="lista">
+            <ui:repeat value="#{recuperaCredenziali.possibili_indirizzi}" var="indirizzo">
+                <li>
+                    <h:commandLink value="#{indirizzo}">
+                        <f:ajax listener="#{recuperaCredenziali.sendEmail(e,indirizzo)}"
+                                render=":recupero_form:message_output :recupero_form:lista"/>
+                    </h:commandLink>
+                </li>
+                
+            </ui:repeat>
+            </ul>
+            <output jsf:id="message_output" jsf:name="message_output">#{recuperaCredenziali.message}</output>
+        </div>
+        <!-- END OUTPUT MESSAGE -->
+    </div>
+    <!--END FOOTER-->
+    
+</h:form>
+<!--END LOGIN FORM-->
+
+</div>
+<!--END WRAPPER-->
+
+<!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
+
+        
+        
+    </h:body>
+    
+    
+</html>
+
+

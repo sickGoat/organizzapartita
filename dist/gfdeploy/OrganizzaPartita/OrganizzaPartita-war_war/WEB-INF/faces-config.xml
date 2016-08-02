@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    
+    
+ <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>gestore</from-outcome>
+            <to-view-id>/gestore/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>giocatore</from-outcome>
+            <to-view-id>/giocatore/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>recupera_password</from-outcome>
+            <to-view-id>/recuperacredenziali.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registrati</from-outcome>
+            <to-view-id>/registrazione.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+<managed-bean>
+    <managed-bean-name>registrazioneController</managed-bean-name>
+    <managed-bean-class>managedbean.RegistrazioneController</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+<managed-bean>
+    <managed-bean-name>cercaCampoController</managed-bean-name>
+    <managed-bean-class>managedbean.CercaCampoController</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+<managed-bean>
+    <managed-bean-name>mapView</managed-bean-name>
+    <managed-bean-class>managedbean.MapView</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>loginController</managed-bean-name>
+    <managed-bean-class>managedbean.LoginController</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>mapView</managed-bean-name>
+    <managed-bean-class>managedbean.MapView</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>utenteSession</managed-bean-name>
+    <managed-bean-class>managedbean.UtenteSession</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+</managed-bean>
+<managed-bean>
+    <managed-bean-name>prenotazioneController</managed-bean-name>
+    <managed-bean-class>managedbean.PrenotazioneController</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>cercaAmici</managed-bean-name>
+    <managed-bean-class>managedbean.CercaAmici</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>gestoreCampiController</managed-bean-name>
+    <managed-bean-class>managedbean.GestoreCampiController</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>gestorePrenotazioni</managed-bean-name>
+    <managed-bean-class>managedbean.GestorePrenotazioni</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>aggiungiCampo</managed-bean-name>
+    <managed-bean-class>managedbean.AggiungiCampo</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>prenotazioneInCorso</managed-bean-name>
+    <managed-bean-class>managedbean.PrenotazioneInCorso</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>uploadFIle</managed-bean-name>
+    <managed-bean-class>managedbean.uploadFIle</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+    <managed-bean-name>gestoreSession</managed-bean-name>
+    <managed-bean-class>managedbean.GestoreSession</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+   <managed-bean-name>modificaCampo</managed-bean-name>
+   <managed-bean-class>managedbean.ModificaCampo</managed-bean-class>
+   <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+<managed-bean>
+   <managed-bean-name>recuperaCredenziali</managed-bean-name>
+   <managed-bean-class>managedbean.RecuperaCredenziali</managed-bean-class>
+   <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+
+ 
+</faces-config>

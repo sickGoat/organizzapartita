@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pass="http://java.sun.com/jsf/passthrough"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/template_gestore.xhtml">
+            <ui:define name="content">
+        <f:view>
+            <h:form id="prenotazioni_form" styleClass="customform">
+                <h3><h:outputLabel for="data" value="Data:"/></h3>
+                <input type="date" jsf:id="data" jsf:value="#{gestorePrenotazioni.date}">
+                    <f:ajax event="change"
+                            listener="#{gestorePrenotazioni.updatePrenotazioni(e,date)}"
+                            render=":prenotazioni_form:prenotazioni_table :prenotazioni_form:message"/>
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </input>
+                <br></br>
+                <h2><h:outputText id="message" value="#{gestorePrenotazioni.message}" rendered="#{gestorePrenotazioni.prenotazioni.size() eq 0}"/></h2>
+                <h:dataTable id="prenotazioni_table" value="#{gestorePrenotazioni.prenotazioni}" rendered="#{gestorePrenotazioni.prenotazioni.size() ne 0}" var="prenotazione">
+                    <h:column>
+                        <h:outputText value="#{prenotazione.orario_inizio.hours}:#{prenotazione.orario_inizio.minutes}:00"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{prenotazione.stato}"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Elimina" onclick="confirm_delete.show();true;">
+                            <f:ajax listener="#{gestorePrenotazioni.selectPrenotazione(e, prenotazione)}"
+                                    />
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </f:view>
+        
+        <h:form>
+        <p:dialog widgetVar="confirm_delete">
+            <p:panelGrid columns="1">
+            <h:outputText value="Vuoi davvero eliminare la prenotazione?"/>
+            <h:inputTextarea value="#{gestorePrenotazioni.message}" pass:placeholder="Allega un messaggio ai giocatori..."/>
+            </p:panelGrid>
+            <h:panelGrid columns="2">
+                <h:commandButton value="Conferma">
+                    <f:ajax listener="#{gestorePrenotazioni.deletePrenotazione(e)}"
+                            render=":prenotazioni_form:prenotazioni_table"/>
+                </h:commandButton>
+                <h:commandButton value="Annulla" onclick="confirm_delete.close();"></h:commandButton>
+            </h:panelGrid>
+        </p:dialog>
+        </h:form>
+        </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

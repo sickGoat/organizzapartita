@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
+      xmlns:pp="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+      
+    </h:head>
+    <h:body>
+         <ui:composition template="/template_gestore.xhtml">   
+         <ui:define name="content">
+             <f:view>
+             <h1>Aggiungi nuovo campo</h1>
+             <h:form id="info_campo" styleClass="customform">
+             <h:outputLabel value="Indirizzo" for="indirizzo_campo"/>
+             <h:inputText value="#{aggiungiCampo.indirizzo}" id="indirizzo_campo" pp:required="true">
+                   <f:ajax listener="#{aggiungiCampo.onIndirizziChange(e)}"
+                           render="indirizzi_list"/>
+             </h:inputText>
+            <div class="aside-nav">
+            <ul jsf:id="indirizzi_list">
+                 <ui:repeat value="#{aggiungiCampo.indirizzi}" var="indirizzo">
+                    <li><h:commandLink value="#{indirizzo}"  actionListener="#{aggiungiCampo.selectIndirizzo(e, indirizzo)}">
+                        </h:commandLink>
+                    </li>
+                 </ui:repeat>
+            </ul>
+            </div>                    
+                      
+            <h:outputLabel value="Orario Apertura" for="apertura_campo"/>
+            <h:selectOneMenu id="apertura_campo" value="#{aggiungiCampo.orario_apertura}">                     
+                    
+                        <f:selectItem
+                                itemValue="08:00:00"
+                                itemLabel="08:00:00"/>
+                        <f:selectItem
+                                itemValue="09:00:00"
+                                itemLabel="09:00:00"/>
+                        <f:selectItem
+                                itemValue="10:00:00"
+                                itemLabel="10:00:00"/>
+                        <f:selectItem
+                                itemValue="11:00:00"
+                                itemLabel="11:00:00"/>
+                        <f:selectItem
+                                itemValue="12:00:00"
+                                itemLabel="12:00:00"/>
+                        <f:selectItem
+                                itemValue="13:00:00"
+                                itemLabel="13:00:00"/>
+                        <f:selectItem
+                                itemValue="14:00:00"
+                                itemLabel="14:00:00"/>
+                        <f:selectItem
+                                itemValue="15:00:00"
+                                itemLabel="15:00:00"/>
+                        <f:selectItem
+                                itemValue="16:00:00"
+                                itemLabel="16:00:00"/>
+            </h:selectOneMenu>
+            
+            <h:outputLabel value="Orario Chiusura" for="chiusura_campo"/>
+            <h:selectOneMenu id="chiusura_campo" value="#{aggiungiCampo.orario_chiusura}">                     
+                    
+                        <f:selectItem
+                                itemValue="17:00:00"
+                                itemLabel="17:00:00"/>
+                        <f:selectItem
+                                itemValue="18:00:00"
+                                itemLabel="18:00:00"/>
+                        <f:selectItem
+                                itemValue="19:00:00"
+                                itemLabel="19:00:00"/>
+                        <f:selectItem
+                                itemValue="20:00:00"
+                                itemLabel="20:00:00"/>
+                        <f:selectItem
+                                itemValue="21:00:00"
+                                itemLabel="21:00:00"/>
+                        <f:selectItem
+                                itemValue="22:00:00"
+                                itemLabel="22:00:00"/>
+                        <f:selectItem
+                                itemValue="23:00:00"
+                                itemLabel="23:00:00"/>
+                        <f:selectItem
+                                itemValue="00:00:00"
+                                itemLabel="00:00:00"/>
+                </h:selectOneMenu>
+            
+        <h:outputLabel for="giocatori_campo" value="Numero Giocatori"/>
+        <h:inputText id="giocatori_campo" pp:type="number" value="#{aggiungiCampo.numero_giocatori}"/> 
+                
+        <h:outputLabel for="tariffa_campo" value="Prezzo per ora"/>
+        <h:inputText id="tariffa_campo" pp:type="number" pp:step="5" value="#{aggiungiCampo.tariffa}"/> 
+                
+        <h:commandButton value="Aggiungi foto" id="aggiungi_foto_link" onclick="return false;"></h:commandButton>
+        <h:commandButton value="Salva" action="#{aggiungiCampo.aggiungiCampo()}"/>
+        </h:form>
+        
+        <!-- Panel per aggiungere le foto -->
+        <p:overlayPanel for=":info_campo:aggiungi_foto_link"  widgetVar="dialog_frame">
+            <h:form  enctype="multipart/form-data">
+                <h:inputFile value="#{uploadFIle.file}" pp:multiple="true">
+                
+            </h:inputFile>
+                <h:commandButton value="Upload" onclick="return false;">
+                    <f:ajax listener="#{uploadFIle.saveIntoList(e)}"/>
+                </h:commandButton>
+            </h:form>
+            
+        </p:overlayPanel>
+    </f:view>
+    </ui:define>
+    </ui:composition>
+    </h:body>
+</html>
+

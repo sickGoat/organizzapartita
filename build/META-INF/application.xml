@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application version="7" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd">
+  <display-name>OrganizzaPartita</display-name>
+  <module>
+    <web>
+      <web-uri>OrganizzaPartita-war.war</web-uri>
+      <context-root>/OrganizzaPartita-war</context-root>
+    </web>
+  </module>
+  <module>
+    <ejb>OrganizzaPartita-ejb.jar</ejb>
+  </module>
+</application>

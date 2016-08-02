@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="login-style.css"/>
+    </h:head>
+    <h:body>
+        <!--WRAPPER-->
+<div id="wrapper">
+
+	<!--SLIDE-IN ICONS-->
+    <div class="user-icon"></div>
+    <div class="pass-icon"></div>
+    <!--END SLIDE-IN ICONS-->
+
+<!--LOGIN FORM-->
+
+<h:form p:class="login-form">
+	<!--HEADER-->
+    <div class="header">
+    <!--TITLE--><h1>Log In</h1><!--END TITLE-->
+    <!--DESCRIPTION--><span>Inserisci Username e Password<br></br><h:link value="Password dimenticata?" outcome="recupera_password"></h:link></span><!--END DESCRIPTION-->
+    </div>
+    <!--END HEADER-->
+	
+	<!--CONTENT-->
+    <div class="content">
+      
+    
+        <h:inputText id="username" value="#{loginController.username}" styleClass="#{loginController.autenticazione_fallita ? 'input-error' : 'input'}" p:placeholder="Username" p:required="true" ></h:inputText> 
+        <h:inputSecret value="#{loginController.password}" id="password" styleClass="#{loginController.autenticazione_fallita ? 'input-error' : 'input'}" p:placeholder="Password" p:required="required"></h:inputSecret>        
+      </div>
+        
+    
+    <!--FOOTER-->
+    <div class="footer">
+        <!--LOGIN BUTTON--> 
+        <h:commandButton  styleClass="button" value="Log In" action="#{loginController.login()}">
+        </h:commandButton> 
+        <!--END LOGIN BUTTON-->
+       
+        <!--REGISTER BUTTON-->
+        <h:button styleClass="register" value="Registrati" outcome="registrati" />
+        <!--END REGISTER BUTTON-->
+        
+        <!-- OUTPUT MESSAGE -->
+        <div class="message">
+        <output jsf:id="message_output" jsf:name="message_output"  jsf:rendered="#{loginController.autenticazione_fallita}">#{loginController.message}</output>
+        </div>
+        <!-- END OUTPUT MESSAGE -->
+    </div>
+    <!--END FOOTER-->
+    
+</h:form>
+<!--END LOGIN FORM-->
+
+</div>
+<!--END WRAPPER-->
+
+<!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
+
+        
+        
+    </h:body>
+    
+    
+</html>
+
+

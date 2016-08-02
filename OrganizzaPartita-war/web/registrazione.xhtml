@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+     <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="login-style.css"/>
+    </h:head>
+    <h:body>
+        
+        
+       <div id="wrapper">
+
+	
+<!--LOGIN FORM-->
+
+   <f:view>
+       <h:form class="login-form">
+	<!--HEADER-->
+    <div class="header">
+    <!--TITLE--><h1>Sign up</h1><!--END TITLE-->
+    <!--DESCRIPTION--><span>Registrati e inizia a giocare<br/>
+                        <h:outputLink value="index.xhtml">Torna al login</h:outputLink>
+    </span><!--END DESCRIPTION-->
+    
+                  
+    </div>
+    <!--END HEADER-->
+	
+	<!--CONTENT-->
+    <div class="content">
+      
+        <!--Ruolo-->
+        <h:selectOneMenu value="#{registrazioneController.gruppo_account}" class="input" p:required="required" p:placeholder="Gruppo">
+            <f:selectItem itemValue="GIOCATORE" itemLabel="Giocatore"></f:selectItem>
+            <f:selectItem itemValue="GESTORE" itemLabel="Gestore"></f:selectItem>
+            <f:ajax  event="change" render="@all" listener="#{registrazioneController.changeIsGestore(event)}"></f:ajax>
+        </h:selectOneMenu>
+        
+        <!--Nome utente-->
+        <h:inputText value="#{registrazioneController.nome_utente}" id="nome_utente" class="input" p:required="required" p:placeholder="Nome"  ></h:inputText>
+        
+        <!--Gognome utente-->
+        <h:inputText value="#{registrazioneController.cognome_utente}" id="cognome_utente" class="input" p:required="required" p:placeholder="Cognome" ></h:inputText>
+        <!-- Numero di telefono -->
+        <h:inputText value="#{registrazioneController.numero_telefono}" id="numero_telefono" class="input" rendered="#{registrazioneController.isGestore}" p:required="required" p:placeholder="Telefono"></h:inputText> 
+        <!--Vive a citta-->
+        <input type="text" class="input" jsf:id="vive_a" value="#{registrazioneController.vivea}" placeholder="Vivi a..."></input>
+        
+        <!--Provincia-->
+        <input type="text" class="input" jsf:id="provincia" value="#{registrazioneController.vivea}" placeholder="Provincia"></input>
+        
+        <!--Email account-->
+        <h:inputText  value="#{registrazioneController.email_account}" id="email_account" styleClass="#{registrazioneController.email_non_disponibile ? 'input-error' : 'input'}" p:required="required" p:placeholder="Email" >
+            <f:ajax  event="change" render="message_output email_account registra_button"  listener="#{registrazioneController.verificaCredenziali(event)}"/>
+        </h:inputText>
+        
+        <!--Username account-->
+        <h:inputText id="username_account" value="#{registrazioneController.username_account}" styleClass="#{registrazioneController.username_non_disponibile ? 'input-error' : 'input'}" p:required="required" p:placeholder="Username" >
+         <f:ajax  event="change" render="message_output username_account registra_button"  listener="#{registrazioneController.verificaCredenziali(event)}"/>
+        </h:inputText>
+        
+        <!--Password account-->
+        <h:inputSecret value="#{registrazioneController.password_account}" p:id="password_account" class="input" p:placeholder="Password" p:required="required"></h:inputSecret> 
+        
+        <!--Conferma password-->
+        <input type="password" id="confirm_password" class="input" required="required" placeholder="Conferma Password" oninput="check(this)"></input>
+        
+       
+        
+      </div>
+        
+    
+    <!--FOOTER-->
+    <div class="footer">
+        <!--REGISTER BUTTON-->
+        <h:commandButton action="#{registrazioneController.registraUtente()}" id="registra_button" disabled="#{registrazioneController.email_non_disponibile || registrazioneController.username_non_disponibile}" class="button" value="Registra">
+        </h:commandButton><!--END LOGIN BUTTON-->
+        
+        <!--Output controlli-->
+       <!-- OUTPU MESSAGE -->
+       <div class="message">
+             <output jsf:id="message_output" jsf:name="message_output"   >#{registrazioneController.message}</output>
+       </div>
+        	
+    </div>
+    <!--END FOOTER-->
+    
+    </h:form> 
+</f:view>
+<!--END LOGIN FORM-->
+
+</div>
+<!--END WRAPPER-->
+
+<!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
+
+        
+        
+
+
+    </h:body>
+    
+  <script>
+function check(input) {
+    
+    if (input.value !== document.getElementById('password_account').value) {
+            document.getElementById('confirm_password').className = 'input-error';
+            document.getElementById('password_account').className = 'input-error';
+            document.getElementById('j_idt7:message_output').value = 'Le password non coincidono';
+            document.getElementById('j_idt7:registra_button').disabled = true;
+            
+    } else {
+        // input is valid -- reset the error message
+           document.getElementById('confirm_password').className = 'input';
+           document.getElementById('password_account').className = 'input';
+           document.getElementById('j_idt7:message_output').value = '';
+           if(document.getElementsByClassName('input-error').length === 0 )
+            document.getElementById('j_idt7:registra_button').disabled = false;
+    }
+}
+</script>
+</html>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"  
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:pp="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+        
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/template_giocatore.xhtml">
+        <ui:define name="content">
+        <h1>Completa prenotazione:</h1>
+        
+        <h:form styleClass="customform">
+            <h:outputLabel value="Data:" for="data_prenotazione"/>
+            <input type="date" jsf:id="data_prenotazione" jsf:value="#{prenotazioneController.data}" placeholder="Data di prenotazione">
+                <f:ajax event="change" 
+                        listener="#{prenotazioneController.aggiornaListaPrenotazioni(e)}"
+                        render=":prenotazioni_form:prenotazioni_table"/>
+            </input>
+        </h:form>
+        <h:form id="prenotazioni_form" class="customform">
+            <div class="aside-nav">
+            <ul jsf:id="prenotazioni_table">
+            <ui:repeat value="#{prenotazioneController.entries}" var="entry">
+                <li>
+                    <h:outputText value="#{entry.key.hours}:00:00"/> 
+                    <h:commandButton value="prenota" disabled="#{entry.value ne null}">
+                        <f:ajax event="click" 
+                        listener="#{prenotazioneController.setDataPrenotazione(e, entry.key)}"
+                        />
+            </h:commandButton>   
+                </li>
+            </ui:repeat>
+            </ul>
+            </div>  
+      
+        </h:form>
+        
+        <!-- Dialog frame ricerca utenti -->
+        <p:dialog id="invita_panel" widgetVar="inviti_dialog" >
+                  <h:outputText value="Cerca amico:" />
+                  <h:form>
+                  <p:inputText id="search_bar" value="#{prenotazioneController.search_bar}" style="margin-left: 10px;">
+                       <f:ajax listener="#{prenotazioneController.searchAmici(event)}" event="change" execute="search_bar" render="tabella_matched"/>
+                  </p:inputText>
+                  <h:dataTable id="tabella_matched" value="#{prenotazioneController.matched_amici}" var="amico">
+                     <h:column>
+                         <h:outputText value="#{amico.utente.nome} #{amico.utente.cognome}" />
+                     </h:column>
+                            
+                     <h:column>
+                         <h:commandButton value="Invita" disabled="#{prenotazioneController.invitati.contains(amico)}">
+                           <f:ajax listener="#{prenotazioneController.invita(e, amico)}"
+                                            render=":invitati_form:invitati_counter :invitati_form:invitati_table :invitati_form:prenota_button @this"/>
+                         </h:commandButton>
+                     </h:column>        
+                   </h:dataTable>
+                   </h:form>
+        </p:dialog>
+                    
+        <h:form id="invitati_form" styleClass="customform">
+            <h3>Invitati: <h:outputText value="(#{prenotazioneController.invitati.size()+1} / #{prenotazioneController.current_campo.numero_giocatori})" id="invitati_counter"/></h3>
+            <h:dataTable id="invitati_table" value="#{prenotazioneController.invitati}" var="invitato">
+            <h:column>
+                <h:outputText value="#{invitato.utente.nome} #{invitato.utente.cognome}"/>
+            </h:column>
+            </h:dataTable>
+            
+            <h:commandButton id="prenota_button" value="Prenota" disabled="#{prenotazioneController.invitati.size() lt prenotazioneController.current_campo.numero_giocatori-1 }"> 
+                    <f:ajax event="click" 
+                        listener="#{prenotazioneController.prenota(e)}" 
+                        render=":prenotazione_exception_form"></f:ajax>
+            </h:commandButton>
+        </h:form>
+    
+        <h:form id="prenotazione_exception_form" styleClass="customform">
+        <p:dialog id="prenotazione_exception_dialog" widgetVar="prenotazione_exception">
+            <h:outputText id="exception_message" value="#{prenotazioneController.message}" rendered="#{prenotazioneController.message ne null}"></h:outputText>
+            <h:dataTable id="non_disponibili_table" 
+                         value="#{prenotazioneController.non_disponibili}" 
+                         var="non_disponibile">
+                <h:column>
+                    <h:outputText value="#{non_disponibile.utente.nome} #{non_disponibile.utente.cognome}"/> 
+                </h:column>
+            </h:dataTable>
+            <h:commandButton value="Abbandona" action="#{prenotazioneController.abbandona()}"/>
+            <h:commandButton value="Sostituisci">
+                <f:ajax listener="#{prenotazioneController.sostituisci(e)}"
+                        render=":invitati_form:invitati_table"/>
+            </h:commandButton>
+        </p:dialog>
+        </h:form>
+        
+        <h:form id="prenotazione_riuscita" styleClass="customform">
+            <p:dialog widgetVar="prenotazione_riuscita_dialog">
+                <h:outputText value="Prenotazione riuscita correttamente"/>
+                <h:button value="Home" outcome="index"/>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+    </ui:composition>
+    </h:body>
+</html>
+
